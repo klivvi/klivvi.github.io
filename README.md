@@ -3,7 +3,7 @@
 A retro-cyberpunk themed portfolio website with interactive effects and multilingual support. Built with pure HTML, CSS, and JavaScript (no frameworks required!).
 ```
 🕶 Warning:
-May cause sudden urges to play retro arcade games or start hacking (ethically, of course).
+May cause sudden urges to play retro arcade games or start hacking (ethically, of course)
 ```
 
 ## 🔮 What's This?
