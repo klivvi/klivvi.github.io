@@ -5,7 +5,8 @@ A retro-cyberpunk themed portfolio website with interactive effects and multilin
 🕶 Warning:
 May cause sudden urges to play retro arcade games or start hacking (ethically, of course)
 ```
-
+You can see my personal website here -> https://klivvi.github.io/
+And template website here -> https://klivvi.github.io/template/
 ## 🔮 What's This?
 
 This is my personal portfolio website with a cool retro aesthetic. Think Matrix meets old-school video games. I built it to showcase my projects and achievements while having some fun with animations and effects.
@@ -35,7 +36,8 @@ The best part? I'm also sharing a template version so you can make your own cybe
 ```
 main branch (my personal site)
 ├── index.html          # My portfolio with personal info
-└── src/                # Images and assets
+├── src/                # Images and assets
+└── template            # Folder for template website (so you can see it online as an actual website)
 
 template branch (for you!)
 ├── template.html       # Clean version ready to customize
@@ -46,7 +48,7 @@ template branch (for you!)
 
 1. **Get the template**
    ```bash
-   git clone -b template https://github.com/yourusername/your-repo-name.git
+   git clone -b template https://github.com/klivvi/klivvi.github.io.git template-folder
    ```
 
 2. **Customize your content**
