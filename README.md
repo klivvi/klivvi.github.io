@@ -7,6 +7,7 @@ May cause sudden urges to play retro arcade games or start hacking (ethically, o
 ```
 You can see my personal website here -> https://klivvi.github.io/
 And template website here -> https://klivvi.github.io/template/
+
 ## 🔮 What's This?
 
 This is my personal portfolio website with a cool retro aesthetic. Think Matrix meets old-school video games. I built it to showcase my projects and achievements while having some fun with animations and effects.
@@ -114,13 +115,16 @@ MIT License - use it, modify it, make it yours! Just maybe give credit if you ke
 
 ## 💰 Future Ideas
 
-Things I might add (or you could add!):
+Things I will add/change (or you could add!):
 - Dark/Light mode toggle
-- More language options
-- Save theme preferences to localStorage
-- Add more particle effects
-- Blog post section with markdown support
+- Better customizaion for phones
+- Animation for phones
+- Settings for 'matrix' rain
+- Change the Korean font
+- Optimize and reorganize the code
+- Q&A online (a question form on website and 'cards' with answers from me)
+- And a lot of other things, honestly
 
 ---
 
-Made with ☕ and a lot of trial and error. Happy coding!
+Made with happy soul, sleepy mind and big motivation. Cheers!
