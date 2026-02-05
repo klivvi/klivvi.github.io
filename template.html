@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.50">
+    <title>Template</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Gothic+A1:wght@400;700&family=Diphylleia&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #050a14;
+            --text-color: #ffffff;
+            --accent-purple: #b026ff;
+            --accent-blue: #00ffff;
+            --accent-pink: #ff00ff;
+            --font-pixel: 'Press Start 2P', cursive;
+            --font-ko: 'Diphylleia', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            image-rendering: pixelated;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-pixel);
+            overflow-x: hidden;
+            padding-top: 80px;
+            transition: background-color 0.3s ease;
+        }
+
+        .lang-ko-style,
+        .lang-ko-style * {
+            font-family: var(--font-ko) !important;
+            font-size: 20px;
+        }
+
+        .lang-ko-style .side-nav a {
+            font-size: 24px !important;
+
+        }
+
+        .lang-ko-style #langDisplay,
+        .lang-ko-style .settings-block .block-title {
+            font-size: 14px !important;
+        }
+
+        .lang-ko-style .setting-item {
+            font-size: 13px !important;
+            margin-bottom: 15px;
+        }
+
+        .lang-ko-style #pageTitleDisplay {
+            font-size: 24px !important;
+        }
+
+        .lang-ko-style .glow-text {
+            font-size: 1.2em !important;
+        }
+
+        .lang-ko-style p,
+        .lang-ko-style .card-desc,
+        .lang-ko-style .news-text,
+        .lang-ko-style .modal-full-text {
+            font-size: 18px !important;
+        }
+
+        .lang-ko-style .card-title {
+            font-size: 20px !important;
+        }
+
+        #canvas-trail {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--accent-purple);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--accent-purple);
+        }
+
+        .card-content {
+            padding: 15px;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .card-desc {
+            font-size: 9px;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            display: block;
+            opacity: 0.8;
+        }
+
+        .card-date {
+            font-size: 8px;
+            color: var(--accent-blue);
+            display: block;
+            margin-top: auto;
+        }
+
+        /* News */
+        .news-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .news-post {
+            margin-bottom: 50px;
+            border-bottom: 1px solid var(--accent-purple);
+            padding-bottom: 30px;
+        }
+
+        .news-img-frame {
+            border: 4px solid var(--accent-purple);
+            padding: 5px;
+            margin-bottom: 15px;
+        }
+
+        .news-img-frame img {
+            width: 100%;
+            display: block;
+        }
+
+        .news-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .news-date {
+            font-size: 10px;
+            color: var(--accent-blue);
+            margin-bottom: 15px;
+        }
+
+        .news-text {
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .news-links {
+            margin-top: 15px;
+        }
+
+        .news-links a {
+            display: block;
+            color: var(--accent-pink);
+            font-size: 10px;
+            text-decoration: none;
+            margin-top: 5px;
+        }
+
+        /* Modal window */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 3000;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+
+        .modal-content {
+            background: var(--bg-color);
+            border: 2px solid var(--accent-purple);
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            padding: 20px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: var(--accent-pink);
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .modal-full-text {
+            line-height: 1.8;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .disclaimer {
+            font-style: italic;
+            font-size: 8px;
+            opacity: 0.6;
+            margin-top: 50px;
+            padding-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Animation for main pic */
+        .profile-pic {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 4px solid var(--accent-purple);
+            margin: 0 auto 20px;
+            overflow: hidden;
+            box-shadow: 0 0 20px var(--accent-purple);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 40px 10px var(--accent-purple), 0 0 15px var(--accent-purple) inset;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        /* Upper panel */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: var(--bg-color);
+            border-bottom: 2px solid var(--accent-purple);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 1000;
+            box-shadow: 0 0 15px var(--accent-purple);
+            opacity: 0.95;
+        }
+
+        .page-title {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: var(--accent-purple);
+            text-transform: uppercase;
+            text-shadow: 0 0 8px var(--accent-purple);
+        }
+
+        .burger-menu {
+            font-size: 24px;
+            color: var(--text-color);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .top-bar-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .settings-img {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: 0.3s;
+            filter: invert(1) drop-shadow(0 0 2px var(--accent-purple));
+        }
+
+        .lang-display {
+            font-size: 10px;
+            color: var(--text-color);
+            padding: 6px 8px;
+            cursor: pointer;
+        }
+
+        /* Settings */
+        .settings-panel {
+            display: none;
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background: var(--bg-color);
+            border: 2px solid var(--accent-purple);
+            padding: 20px;
+            z-index: 2000;
+            width: 290px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .settings-panel.show {
+            display: block;
+        }
+
+        .settings-block {
+            border-bottom: 1px solid rgba(176, 38, 255, 0.3);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .block-title {
+            display: block;
+            color: var(--accent-blue);
+            margin-bottom: 12px;
+            font-size: 9px;
+            text-transform: uppercase;
+        }
+
+        .setting-item {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 8px;
+        }
+
+        .reset-btn {
+            width: 100%;
+            background: none;
+            border: 1px solid var(--accent-pink);
+            color: var(--accent-pink);
+            font-family: var(--font-pixel);
+            font-size: 8px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        /* Side menu */
+        .side-nav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 2000;
+            top: 0;
+            left: 0;
+            background-color: var(--bg-color);
+            border-right: 2px solid var(--accent-purple);
+            overflow-x: hidden;
+            transition: 0.3s;
+            padding-top: 60px;
+        }
+
+        .side-nav a {
+            padding: 15px 25px;
+            font-size: 10px;
+            color: var(--text-color);
+            display: block;
+            text-decoration: none;
+        }
+
+        .side-nav a:hover {
+            color: var(--accent-purple);
+            background: rgba(176, 38, 255, 0.1);
+        }
+
+        .lang-dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: var(--bg-color);
+            border: 2px solid var(--accent-purple);
+            padding: 5px;
+            min-width: 120px;
+        }
+
+        .lang-dropdown.show {
+            display: block;
+        }
+
+        .lang-btn {
+            width: 100%;
+            background: none;
+            border: none;
+            color: white;
+            font-family: var(--font-pixel);
+            font-size: 8px;
+            padding: 10px;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        /* Sections */
+        .page-section {
+            display: none;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: fadeIn 0.4s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .divider {
+            height: 2px;
+            width: 60%;
+            margin: 30px auto;
+            background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
+        }
+
+        .contact-link {
+            display: block;
+            margin: 30px 0;
+            font-size: 18px;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .contact-link:hover {
+            color: var(--accent-pink);
+            text-shadow: 0 0 15px var(--accent-purple);
+            transform: scale(1.2);
+        }
+
+        .glow-text {
+            word-break: keep-all;
+            overflow-wrap: break-word;
+            display: block;
+        }
+
+        .glow-text span {
+            color: var(--text-color);
+            transition: 0.2s;
+            display: inline-block;
+            white-space: pre;
+        }
+
+        .matrix-side {
+            display: none;
+            position: fixed;
+            top: 0;
+            width: 100px;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        @media (min-width: 0px) {
+            .matrix-side {
+                display: block;
+            }
+        }
+
+        .left-matrix {
+            left: 0px;
+        }
+
+        .right-matrix {
+            right: 0px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body onclick="closeAllPanels()">
+
+    <div class="matrix-side left-matrix">
+        <canvas id="canvas-left"></canvas>
+    </div>
+    <div class="matrix-side right-matrix">
+        <canvas id="canvas-right"></canvas>
+    </div>
+
+    <canvas id="canvas-trail"></canvas>
+
+    <div class="top-bar" onclick="event.stopPropagation()" id="uiTopBar">
+        <div class="burger-menu" onclick="toggleMenu(event)">☰</div>
+        <div class="page-title" id="pageTitleDisplay">HOME</div>
+        <div class="top-bar-right">
+            <img class="settings-img" onclick="toggleSettings(event)"
+                src="https://cdn-icons-png.flaticon.com/512/126/126472.png" alt="⚙️">
+            <div style="position: relative;">
+                <div class="lang-display" id="langDisplay" onclick="toggleLang(event)">EN</div>
+                <div class="lang-dropdown" id="langMenu">
+                    <button class="lang-btn" onclick="setLanguage('en')">ENGLISH</button>
+                    <button class="lang-btn" onclick="setLanguage('ru')">РУССКИЙ</button>
+                    <button class="lang-btn" onclick="setLanguage('ko')">한국어</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsPanel" class="settings-panel" onclick="event.stopPropagation()">
+        <div class="settings-block">
+            <label class="block-title" data-key="settings_theme">THEME PALETTE</label>
+            <div class="setting-item"><label data-key="settings_bg">Background</label><input type="color" id="pickerBg"
+                    value="#050a14"></div>
+            <div class="setting-item"><label data-key="settings_text">Main Text</label><input type="color"
+                    id="pickerText" value="#ffffff"></div>
+            <div class="setting-item"><label data-key="settings_accent">Accent</label><input type="color"
+                    id="pickerAccent" value="#b026ff"></div>
+            <button class="reset-btn" onclick="resetTheme()" data-key="settings_reset">RESET ALL</button>
+        </div>
+        <div class="settings-block">
+            <label class="block-title" data-key="settings_trail">PIXEL TRAIL</label>
+            <div class="setting-item"><label data-key="settings_trail_enabled">Enabled</label><input type="checkbox"
+                    id="trailEnabled" checked></div>
+            <div class="setting-item">
+                <label data-key="settings_color">Color</label>
+                <div style="display:flex; gap:5px;">
+                    <input type="color" id="trailColor" value="#b026ff">
+                    <button onclick="resetColor('trailColor')"
+                        style="cursor:pointer; background:none; border:1px solid #fff; color:#fff; font-size:8px;">↺</button>
+                </div>
+            </div>
+            <div class="setting-item"><label data-key="settings_trail_opacity">Opacity</label><input type="range"
+                    id="trailOpacity" min="0.1" max="1" step="0.1" value="0.8"></div>
+            <div class="setting-item"><label data-key="settings_trail_size">Pixel Size</label><input type="range"
+                    id="trailSize" min="2" max="20" value="8"></div>
+            <div class="setting-item"><label data-key="settings_trail_life">Lifetime</label><input type="range"
+                    id="trailLife" min="1" max="50" value="15"></div>
+        </div>
+        <div class="settings-block">
+            <label class="block-title" data-key="settings_glow">TEXT GLOW</label>
+            <div class="setting-item"><label data-key="settings_glow_enabled">Enabled</label><input type="checkbox"
+                    id="glowEnabled" checked></div>
+            <div class="setting-item">
+                <label data-key="settings_color">Color</label>
+                <div style="display:flex; gap:5px;">
+                    <input type="color" id="glowColor" value="#b026ff">
+                    <button onclick="resetColor('glowColor')"
+                        style="cursor:pointer; background:none; border:1px solid #fff; color:#fff; font-size:8px;">↺</button>
+                </div>
+            </div>
+            <div class="setting-item"><label data-key="settings_glow_range">Range (px)</label><input type="range"
+                    id="glowRange" min="30" max="250" value="70"></div>
+        </div>
+    </div>
+
+    <div id="sideNav" class="side-nav" onclick="event.stopPropagation()">
+        <a href="#" onclick="showPage('home')" data-key="nav_home">Home</a>
+        <a href="#" onclick="showPage('works')" data-key="nav_works">Works</a>
+        <a href="#" onclick="showPage('achieve')" data-key="nav_achieve">Achievements</a>
+        <a href="#" onclick="showPage('news')" data-key="nav_news">News</a>
+        <a href="#" onclick="showPage('contacts')" data-key="nav_contacts">Contacts</a>
+    </div>
+
+    <div id="home" class="page-section active">
+        <div style="text-align:center; margin-top: 30px;">
+            <div class="profile-pic">
+                <img src="src/profile-pic.gif" alt="PROFILE PIC">
+            </div>
+            <h1 class="glow-text" data-key="name" style="font-size: 24px;">PROFILE PIC</h1>
+            <p class="glow-text" data-key="quote" style="font-size: 10px; color: var(--accent-pink);">"Quote"</p>
+            <div class="divider"></div>
+            <p class="glow-text" data-key="about_text"
+                style="font-size: 11px; max-width: 600px; margin: 0 auto; line-height: 2;">
+                Some text
+            </p>
+        </div>
+    </div>
+
+    <div id="works" class="page-section">
+        <h2 class="glow-text" style="text-align:center;" data-key="title_works">MY WORKS</h2>
+        <div class="grid-container">
+        </div>
+    </div>
+    </div>
+
+    <div id="achieve" class="page-section">
+        <h2 class="glow-text" style="text-align:center;" data-key="title_achieve">ACHIEVEMENTS</h2>
+        <div class="grid-container">
+        </div>
+    </div>
+    </div>
+
+    <div id="news" class="page-section">
+        <h2 class="glow-text" style="text-align:center;" data-key="title_news">LATEST NEWS</h2>
+        <div class="news-container">
+        </div>
+    </div>
+    </div>
+
+    <div id="contacts" class="page-section" style="text-align:center;">
+        <h2 class="glow-text" data-key="title_contacts">GET IN TOUCH</h2>
+        <a href="https://github.com" target="_blank" class="contact-link">GITHUB</a>
+        <a href="https://www.instagram.com" target="_blank" class="contact-link">INSTAGRAM</a>
+        <a href="https://www.tiktok.com" target="_blank" class="contact-link">TIK TOK</a>
+    </div>
+
+    <div id="projectModal" class="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <span class="close-modal" onclick="closeModal()">×</span>
+            <img id="modalImg" src="" style="width:100%; margin-bottom:20px; border:1px solid var(--accent-purple);">
+            <h2 id="modalTitle" class="news-title"></h2>
+            <p id="modalSmallDesc" style="color:var(--accent-pink); font-size:10px;"></p>
+            <div id="modalFullText" class="modal-full-text"></div>
+            <div id="modalLinks" class="news-links"></div>
+        </div>
+    </div>
+
+    <script>
+        const contentData = {
+            works: [
+                {
+                    id: "project1",
+                    date: "2026-01-25",
+                    img: "src/project1_pic.png",
+                    translations: {
+                        en: {
+                            title: "Work #1",
+                            desc: "My very fisrt...",
+                            full: "Full English text..."
+                        },
+                        ru: {
+                            title: "Работа 1)",
+                            desc: "Моя первая работа...",
+                            full: "Полный русский текст..."
+                        },
+                        ko: {
+                            title: "알파",
+                            desc: "짧은 설명",
+                            full: "한국어 전체 텍스트..."
+                        }
+                    },
+                    links: ["https://github.com"]
+                }
+                // Here we add new cards
+            ],
+            achieve: [
+                {
+                    id: "achieve1",
+                    date: "2025-12-10",
+                    img: "src/award1.png",
+                    translations: {
+                        en: {
+                            title: "Winer",
+                            desc: "First place",
+                            full: "Long story of success..."
+                        },
+                        ru: {
+                            title: "Победитель",
+                            desc: "1 место",
+                            full: "История успеха..."
+                        },
+                        ko: {
+                            title: "수상자",
+                            desc: "1위",
+                            full: "성공 사례..."
+                        }
+                    },
+                    links: []
+                }
+            ],
+            news: [
+                {
+                    date: "25.01.2026",
+                    img: "src/news1-photo.png",
+                    translations: {
+                        en: {
+                            title: "TITLE",
+                            text: "Some text here",
+                            linkText: "(link)"
+                        },
+                        ru: {
+                            title: "ЗАГОЛОВОК НОВОСТЕЙ",
+                            text: "Сама новость",
+                            linkText: "(ссылка)"
+                        },
+                        ko: {
+                            title: "업데이트",
+                            text: "업데이트",
+                            linkText: "더 읽어보기 →"
+                        }
+                    },
+                    url: "#" // Link text here
+                }
+            ]
+        };
+
+        let currentLang = 'en';
+
+        const translations = {
+            en: {
+                name: "Your Name",
+                quote: "'Quote :o'",
+                about_text: "Some text about you",
+                nav_home: "Home", nav_works: "Works", nav_achieve: "Achievements", nav_news: "News", nav_contacts: "Contacts",
+                title_works: "MY WORKS", title_achieve: "MY ACHIEVEMENTS", title_news: "LATEST NEWS", title_contacts: "GET IN TOUCH",
+                settings_theme: 'THEME',
+                settings_bg: 'Background',
+                settings_text: 'Main Text',
+                settings_accent: 'Accent',
+                settings_reset: 'RESET ALL',
+                settings_trail: 'PIXEL TRAIL',
+                settings_trail_enabled: 'Enabled',
+                settings_color: 'Color',
+                settings_trail_opacity: 'Opacity',
+                settings_trail_size: 'Size',
+                settings_trail_life: 'Lifetime',
+                settings_glow: 'TEXT GLOW',
+                settings_glow_enabled: 'Enabled',
+                settings_glow_range: 'Range (px)'
+            },
+            ru: {
+                name: "Ваше Имя",
+                quote: "\"Сюда цитатку можно\"",
+                about_text: "А тут о себе расскажете. И с анимациями побалуетесь :o",
+                nav_home: "Главная", nav_works: "Работы", nav_achieve: "Достижения", nav_news: "Новости", nav_contacts: "Контакты",
+                title_works: "МОИ РАБОТЫ", title_achieve: "МОИ ДОСТИЖЕНИЯ", title_news: "ПОСЛЕДНИЕ НОВОСТИ", title_contacts: "МОИ СОЦ. СЕТИ",
+                settings_theme: 'ТЕМА',
+                settings_bg: 'Фон',
+                settings_text: 'Главный Текст',
+                settings_accent: 'Акцентный',
+                settings_reset: 'СБРОС',
+                settings_trail: 'ПИКСЕЛЬНЫЙ ХВОСТ',
+                settings_trail_enabled: 'Включен',
+                settings_color: 'Цвет',
+                settings_trail_opacity: 'Прозрачность',
+                settings_trail_size: 'Размер Пикселей',
+                settings_trail_life: 'Длительность',
+                settings_glow: 'ПОДСВЕТКА ТЕКСТА',
+                settings_glow_enabled: 'Включено',
+                settings_glow_range: 'Радиус (px)'
+            },
+            ko: {
+                name: "이름이",
+                quote: "\"제미있는 인용문\"",
+                about_text: "자기 자신에 대한 텍스트 ^^",
+                nav_home: "홈페이지", nav_works: "작품", nav_achieve: "업적", nav_news: "뉴스", nav_contacts: "연락처",
+                title_works: "제 작품", title_achieve: "제 업적", title_news: "최신 뉴스", title_contacts: "연락하기",
+                settings_theme: '테마',
+                settings_bg: '배경',
+                settings_text: '텍스트',
+                settings_accent: '강조',
+                settings_reset: '재설정',
+                settings_trail: '트레일',
+                settings_trail_enabled: '활성화',
+                settings_color: '색상',
+                settings_trail_opacity: '불투명도',
+                settings_trail_size: '크기',
+                settings_trail_life: '수명',
+                settings_glow: '발광',
+                settings_glow_enabled: '활성화',
+                settings_glow_range: '범위 (px)'
+            }
+        };
+
+        const canvas = document.getElementById('canvas-trail');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const settings = {
+            trail: { enabled: true, color: '#b026ff', opacity: 0.8, fade: 0.015, size: 8 },
+            glow: { enabled: true, color: '#b026ff', range: 70 }
+        };
+
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) { this.x = x; this.y = y; this.alpha = settings.trail.opacity; }
+            update() { this.alpha -= settings.trail.fade; }
+            draw() {
+                ctx.save(); ctx.globalAlpha = this.alpha;
+                ctx.shadowBlur = 10; ctx.shadowColor = settings.trail.color;
+                ctx.fillStyle = settings.trail.color;
+                ctx.fillRect(this.x, this.y, settings.trail.size, settings.trail.size);
+                ctx.restore();
+            }
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            if (settings.trail.enabled) {
+                for (let i = 0; i < 3; i++) particles.push(new Particle(e.clientX + (Math.random() * 10 - 5), e.clientY + (Math.random() * 10 - 5)));
+            }
+            if (settings.glow.enabled) {
+                document.querySelectorAll('.glow-text span').forEach(span => {
+                    const rect = span.getBoundingClientRect();
+                    const dist = Math.hypot(e.clientX - (rect.left + rect.width / 2), e.clientY - (rect.top + rect.height / 2));
+                    if (dist < settings.glow.range) {
+                        span.style.color = settings.glow.color;
+                        span.style.textShadow = `0 0 10px ${settings.glow.color}`;
+                    } else {
+                        span.style.color = 'var(--text-color)';
+                        span.style.textShadow = 'none';
+                    }
+                });
+            }
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles = particles.filter(p => p.alpha > 0);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        function toggleSettings(e) {
+            if (e) e.stopPropagation();
+            const panel = document.getElementById('settingsPanel');
+            const isShowing = panel.classList.contains('show');
+
+            closeAllPanels();
+
+            if (!isShowing) {
+                panel.classList.add('show');
+            }
+        }
+
+        function toggleLang(e) {
+            if (e) e.stopPropagation();
+            const menu = document.getElementById('langMenu');
+            const isShowing = menu.classList.contains('show');
+            closeAllPanels();
+
+            if (!isShowing) {
+                menu.classList.add('show');
+            }
+        }
+
+        function toggleMenu(e) {
+            if (e) e.stopPropagation();
+            const nav = document.getElementById("sideNav");
+            const isOpen = (nav.style.width === "250px");
+
+            closeAllPanels();
+
+            if (!isOpen) {
+                nav.style.width = "250px";
+            } else {
+                nav.style.width = "0";
+            }
+        }
+
+        function closeAllPanels() {
+            document.getElementById('settingsPanel').classList.remove('show');
+            document.getElementById('langMenu').classList.remove('show');
+            document.getElementById('sideNav').style.width = "0";
+        }
+
+        function initMatrix() {
+            const canvases = [document.getElementById('canvas-left'), document.getElementById('canvas-right')];
+            const charSet = "%#@?!*;&ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            const chars = charSet.split("");
+
+            canvases.forEach(canvas => {
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+
+                const resize = () => {
+                    canvas.width = canvas.parentElement.offsetWidth || 60;
+                    canvas.height = window.innerHeight;
+                };
+                resize();
+                window.addEventListener('resize', resize);
+
+                const baseFontSize = 20;
+                const columnsCount = Math.floor(canvas.width / 10) || 1;
+
+                const columnsData = [];
+
+                for (let i = 0; i < columnsCount; i++) {
+                    columnsData[i] = {
+                        x: i * 12, // Horizontal position
+                        y: Math.random(), // Start position
+                        fontSize: Math.floor(Math.random() * (30 - 20 + 1)) + 8, // Size from 20 to 30
+                        tailLength: Math.floor(Math.random() * (25 - 5 + 1)) + 5, // Tail length up to 16
+                        speed: Math.random() * 0.3 + 0.3, // Different speed
+                        opacity: Math.random() * 0.5 + 1 // Basic tail transparency
+                    };
+                }
+
+                function draw() {
+                    ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--bg-color').trim();
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                    let accent = getComputedStyle(document.documentElement).getPropertyValue('--accent-purple').trim();
+
+                    columnsData.forEach(col => {
+                        ctx.font = col.fontSize + "px monospace";
+
+                        for (let j = 0; j < col.tailLength; j++) {
+                            const drawY = (col.y - j) * col.fontSize;
+
+                            if (drawY < -20 || drawY > canvas.height + col.fontSize) continue;
+
+                            const fadeAlpha = 1 - (j / col.tailLength);
+                            ctx.globalAlpha = fadeAlpha * col.opacity;
+
+                            ctx.fillStyle = accent || "#b026ff";
+                            ctx.shadowBlur = 8;
+                            ctx.shadowColor = accent || "#b026ff";
+
+                            const text = chars[Math.floor(Math.random() * chars.length)];
+                            ctx.fillText(text, col.x, drawY);
+                        }
+
+                        ctx.globalAlpha = 1.0;
+                        ctx.shadowBlur = 0;
+
+                        if ((col.y - col.tailLength) * col.fontSize > canvas.height) {
+                            if (Math.random() > 0.975) {
+                                col.y = 0;
+                                col.fontSize = Math.floor(Math.random() * (22 - 8 + 1)) + 8;
+                                col.speed = Math.random() * 0.3 + 0.5;
+                            }
+                        }
+
+                        col.y += col.speed;
+                    });
+                }
+                setInterval(draw, 60);
+            });
+        }
+
+        function renderContent() {
+            ['works', 'achieve'].forEach(type => {
+                const container = document.querySelector(`#${type} .grid-container`);
+                if (!container) return;
+
+                container.innerHTML = '';
+
+                contentData[type].forEach(item => {
+                    const langData = item.translations[currentLang];
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.onclick = () => openModal(
+                        langData.title,
+                        langData.desc,
+                        langData.full,
+                        item.img,
+                        item.date,
+                        item.links
+                    );
+
+                    card.innerHTML = `
+                <img src="${item.img}" class="card-img">
+                <div class="card-content">
+                    <span class="card-title">${langData.title}</span>
+                    <span class="card-desc">${langData.desc}</span>
+                    <span class="card-date">${item.date}</span>
+                </div>
+            `;
+                    container.appendChild(card);
+                });
+            });
+            const newsContainer = document.querySelector('.news-container');
+            if (newsContainer) {
+                newsContainer.innerHTML = '';
+                contentData.news.forEach(item => {
+                    const langData = item.translations[currentLang];
+                    const post = document.createElement('div');
+                    post.className = 'news-post';
+                    post.innerHTML = `
+                <div class="news-img-frame">
+                    <img src="${item.img}">
+                </div>
+                <div class="news-title">${langData.title}</div>
+                <div class="news-date">${item.date}</div>
+                <div class="news-text">${langData.text}</div>
+                <div class="news-links">
+                    <a href="${item.url}">${langData.linkText}</a>
+                </div>
+            `;
+                    newsContainer.appendChild(post);
+                });
+            }
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('langDisplay').innerText = lang.toUpperCase();
+            document.body.classList.toggle('lang-ko-style', lang === 'ko');
+
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang][key]) el.innerText = translations[lang][key];
+            });
+
+            const activeSection = document.querySelector('.page-section.active');
+            if (activeSection) {
+                const navKey = 'nav_' + activeSection.id;
+
+                if (translations[lang][navKey]) {
+                    document.getElementById('pageTitleDisplay').innerText = translations[lang][navKey];
+                }
+            }
+            if (typeof renderContent === "function") {
+                renderContent();
+            }
+            initGlowText();
+        }
+
+        function initGlowText() {
+            try {
+                document.querySelectorAll('.glow-text').forEach(el => {
+                    const text = el.getAttribute('data-key') ?
+                        translations[currentLang][el.getAttribute('data-key')] :
+                        el.textContent.trim();
+
+                    if (!text) return;
+
+                    el.innerHTML = '';
+                    const words = text.split(' ');
+
+                    words.forEach(word => {
+                        const wordSpan = document.createElement('span');
+                        wordSpan.style.whiteSpace = 'nowrap';
+                        wordSpan.style.display = 'inline-block';
+
+                        [...word].forEach(char => {
+                            const letter = document.createElement('span');
+                            letter.innerText = char;
+                            wordSpan.appendChild(letter);
+                        });
+
+                        el.appendChild(wordSpan);
+
+                        el.appendChild(document.createTextNode(' '));
+                    });
+                });
+            } catch (error) {
+                console.error('Error initializing glow text:', error);
+            }
+        }
+
+        function showPage(id) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.getElementById('pageTitleDisplay').innerText = translations[currentLang]['nav_' + id] || id.toUpperCase();
+            closeAllPanels();
+            initGlowText();
+        }
+
+        const root = document.documentElement;
+        document.getElementById('pickerBg').addEventListener('input', e => root.style.setProperty('--bg-color', e.target.value));
+        document.getElementById('pickerText').addEventListener('input', e => root.style.setProperty('--text-color', e.target.value));
+        document.getElementById('pickerAccent').addEventListener('input', e => {
+            const color = e.target.value;
+            root.style.setProperty('--accent-purple', color);
+        });
+
+        document.getElementById('trailEnabled').addEventListener('change', e => settings.trail.enabled = e.target.checked);
+        document.getElementById('trailColor').addEventListener('input', e => settings.trail.color = e.target.value);
+        document.getElementById('trailOpacity').addEventListener('input', e => settings.trail.opacity = e.target.value);
+        document.getElementById('trailSize').addEventListener('input', e => settings.trail.size = e.target.value);
+        document.getElementById('trailLife').addEventListener('input', e => settings.trail.fade = (60 - e.target.value) / 1000);
+
+        document.getElementById('glowEnabled').addEventListener('change', e => settings.glow.enabled = e.target.checked);
+        document.getElementById('glowColor').addEventListener('input', e => settings.glow.color = e.target.value);
+        document.getElementById('glowRange').addEventListener('input', e => settings.glow.range = e.target.value);
+
+        function resetTheme() {
+            root.style.setProperty('--bg-color', '#050a14');
+            root.style.setProperty('--text-color', '#ffffff');
+            root.style.setProperty('--accent-purple', '#b026ff');
+            document.getElementById('pickerBg').value = '#050a14';
+            document.getElementById('pickerText').value = '#ffffff';
+            document.getElementById('pickerAccent').value = '#b026ff';
+        }
+
+        function resetColor(type) {
+            const color = '#b026ff';
+            document.getElementById(type).value = color;
+            if (type === 'trailColor') settings.trail.color = color;
+            if (type === 'glowColor') settings.glow.color = color;
+        }
+
+        window.onload = () => { setLanguage('en'); initGlowText(); initMatrix(); };
+
+        function openModal(title, smallDesc, fullText, img, date, links) {
+            document.getElementById('modalImg').src = img;
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalSmallDesc').innerText = smallDesc;
+            document.getElementById('modalFullText').innerText = fullText;
+            const linksContainer = document.getElementById('modalLinks');
+            linksContainer.innerHTML = '';
+            links.forEach(link => {
+                const a = document.createElement('a');
+                a.href = link; a.target = "_blank"; a.innerText = link;
+                linksContainer.appendChild(a);
+            });
+            document.getElementById('projectModal').style.display = 'block';
+        }
+        function closeModal() {
+            document.getElementById('projectModal').style.display = 'none';
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => appController.init());
+        } else {
+            appController.init();
+        }
+    </script>
+</body>
+
+</html>
